@@ -28,6 +28,19 @@ exports.getById = function(school_id, callback) {
     });
 };
 
+exports.getByIdX = function(school_id, callback) {
+    var query = 'SELECT r.*, s.school_id, s.school_name from resume r ' +
+        'left join resume_school rs on rs.resume_id = r.resume_id ' +
+        'left join school s on s.school_id = rs.school_id ' +
+        'where r.resume_id = ?';
+
+    var queryData = [school_id];
+
+    connection.query(query, queryData, function(err, result) {
+        callback(err, result);
+    });
+};
+
 exports.insert = function(params, callback) {
     var query = 'INSERT INTO school (school_name, address_id) VALUES (?, ?)';
 
